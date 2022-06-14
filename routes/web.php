@@ -15,12 +15,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     $pokemon = Http::get('https://pokeapi.co/api/v2/pokemon/?offset=0&limit=1126');
-
     return view('welcome',['pokemon'=>$pokemon['results']]);
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $pokemon = Http::get('https://pokeapi.co/api/v2/pokemon/?offset=0&limit=1126');
+    return view('dashboard',['pokemon'=>$pokemon['results']]);
 })->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';
