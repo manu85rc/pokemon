@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Http;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,25 +14,9 @@ use Illuminate\Support\Facades\Http;
 */
 
 Route::get('/', function () {
-    $response = Http::get('https://pokeapi.co/api/v2/pokemon/');
-    $response2 = Http::get('https://jsonplaceholder.typicode.com/users');
+    $pokemon = Http::get('https://pokeapi.co/api/v2/pokemon/?offset=0&limit=1126');
 
-
-
-
-
-//return $response2->json();
-
-   // json_encode
-  // $obj = json_encode($response2);
-  // $response = json_decode($response2);
-   //print_r($obj);
-    //return print_r($obj);
-    //https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0
-
-    $responsearray = $response->json();
-
-    return view('welcome', compact('responsearray'));
+    return view('welcome',['pokemon'=>$pokemon['results']]);
 });
 
 Route::get('/dashboard', function () {
