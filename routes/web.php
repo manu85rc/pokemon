@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PokeController;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,13 +17,17 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    $votes = DB::table('votes')->get();
     $pokemon = Http::get('https://pokeapi.co/api/v2/pokemon/?offset=0&limit=1126');
-    return view('welcome',['pokemon'=>$pokemon['results']]);
+    return view('welcome',['pokemon'=>$pokemon['results']],['votes' => $votes]);
 });
 
+Route::post('insert',[PokeController::class,'index'])->name('poke.index');
+
 Route::get('/dashboard', function () {
+    $votes = DB::table('votes')->get();
     $pokemon = Http::get('https://pokeapi.co/api/v2/pokemon/?offset=0&limit=1126');
-    return view('dashboard',['pokemon'=>$pokemon['results']]);
+    return view('dashboard',['pokemon'=>$pokemon['results']],['votes' => $votes]);
 })->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';
